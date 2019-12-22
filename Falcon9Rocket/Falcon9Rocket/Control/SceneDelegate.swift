@@ -10,7 +10,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
 
-        let homeViewController = ViewController()
+        let service = LaunchesService(client: LaunchesClient())
+        let homeViewController = ViewController(service: service)
         window?.rootViewController = homeViewController
         window?.backgroundColor = UIColor.white
         window?.makeKeyAndVisible()
