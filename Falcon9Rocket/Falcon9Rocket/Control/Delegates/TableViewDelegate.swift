@@ -4,7 +4,7 @@ class TableViewDelegate: NSObject, UITableViewDelegate, UITableViewDataSource
 {
     var tableView: UITableView
     var viewModel: LaunchViewModel
-    let estimatedRowHeight: CGFloat = 100
+    let rowHeight: CGFloat = 100
     init(viewModel: LaunchViewModel, tableView: UITableView)
     {
         self.viewModel = viewModel
@@ -19,10 +19,9 @@ class TableViewDelegate: NSObject, UITableViewDelegate, UITableViewDataSource
         tableView.register(LaunchCell.self, forCellReuseIdentifier: LaunchCell.defaultReuseIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = estimatedRowHeight
-        tableView.estimatedRowHeight = estimatedRowHeight
+        tableView.rowHeight = rowHeight
         tableView.separatorStyle = .singleLine
-        tableView.backgroundColor = UIColor.white
+        tableView.backgroundColor = .white
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
