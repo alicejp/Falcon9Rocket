@@ -1,6 +1,6 @@
 import UIKit
 
-class TableViewDelegate: NSObject, UITableViewDelegate, UITableViewDataSource
+class TableViewDelegate: NSObject
 {
     var tableView: UITableView
     var viewModel: LaunchViewModel
@@ -14,6 +14,11 @@ class TableViewDelegate: NSObject, UITableViewDelegate, UITableViewDataSource
         tableView.reloadData()
     }
 
+    func reloadTableData()
+    {
+        tableView.reloadData()
+    }
+
     private func setupTableView()
     {
         tableView.register(LaunchCell.self, forCellReuseIdentifier: LaunchCell.defaultReuseIdentifier)
@@ -23,7 +28,10 @@ class TableViewDelegate: NSObject, UITableViewDelegate, UITableViewDataSource
         tableView.separatorStyle = .singleLine
         tableView.backgroundColor = .white
     }
+}
 
+extension TableViewDelegate: UITableViewDataSource, UITableViewDelegate
+{
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }

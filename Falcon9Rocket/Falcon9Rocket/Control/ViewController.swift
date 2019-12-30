@@ -7,6 +7,8 @@ class ViewController: UIViewController {
     private var service: LaunchesService!
     private var viewModel = LaunchViewModel()
 
+    private let refreshControl = UIRefreshControl()
+
     init(service: LaunchesService)
     {
         self.service = service
@@ -21,26 +23,36 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         tableView = UITableView(frame: self.view.frame)
 
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+
         tableViewDelegate = TableViewDelegate(viewModel: viewModel, tableView: tableView)
         view.addSubview(tableView)
 
         getLaunches()
     }
 
-    func getLaunches()
+    @objc
+    private func pullToRefresh()
+    {
+        getLaunches()
+    }
+
+    private func getLaunches()
     {
         service.getLaunches {
             [weak self] result in
             switch result
             {
-            case .failure(let error):
-                print(error)
+            case .failure:
+                self?.viewModel.launches = nil
             case .success(let launches):
                 self?.viewModel.launches = launches
+            }
 
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
+            DispatchQueue.main.async {
+                self?.refreshControl.endRefreshing()
+                self?.tableViewDelegate.reloadTableData()
             }
         }
     }
